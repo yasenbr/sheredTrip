@@ -1,0 +1,20 @@
+<div class="container" style="height: 90vh;">
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4">
+        <h1 class="display-3">Welcome Share Tripers!</h1>
+        <p class="lead">Shared Trip is the best way to road across the country. <br> Find yours Shared Trip's
+            buddies, when you share with us yours trip plans and let the exploration begin!</p>
+        <a href="/trips/displayTrip/create" class="btn btn-primary btn-lg">Offer Trip!</a>
+    </header>
+    <!-- Page Features -->
+    <div class="row text-center">
+        {{#if trips}}
+        {{#each trips}}
+        {{> trips}}
+        {{/each}}
+        {{else}}
+        {{>noTrips}}
+        {{/if}}
+    </div>
+    <!-- /.row -->
+</div>
