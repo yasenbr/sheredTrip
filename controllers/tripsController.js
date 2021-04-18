@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const tripServices = require("../services/tripServices.js");
-
+const userServices = require("../services/userServices");
 router.get("/displayTrip", (req, res, next) => {
   if (req.user) {
     tripServices
@@ -28,14 +28,28 @@ router.post("/displayTrip/create", (req, res, next) => {
     .catch(next);
 });
 router.get("/displayTrip/detail/:_id", (req, res) => {
+  let tripsBuddiesList =[];
   tripServices
     .getOne(req.params._id, req.user._id)
     .then((trip) => {
       if (trip.buddies.includes(req.user._id)) {
+        trip.buddies.forEach(id => {
+          userServices.getOne(id).then((user)=>{
+            console.log(user);
+            tripsBuddiesList.push(user.username);
+          })
+          
+        });
         trip.joined = true;
         trip.seat = 0;
         res.render("driverTripDetails", trip);
-      } else {
+      } else if(trip.creator === req.user.username){
+        trip.isCreator = true;
+        // trip.noSeat = false;
+        trip.seat = false;
+        console.log(trip);
+        res.render("driverTripDetails", trip);
+      }else{
         res.render("driverTripDetails", trip);
       }
       // console.log(trip.seat);

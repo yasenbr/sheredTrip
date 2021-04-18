@@ -41,11 +41,9 @@
                         {{description}}</p>
                     {{#if isCreator}}
                     {{> deleteBtn}}
-                    {{/if}}
-                    {{#if seat}}
+                    {{else if seat}}
                     {{> availableSeat}}
-                    {{/if}}
-                    {{#if joined}}
+                    {{else if joined}}
                     {{> joined}}
                     {{else}}
                     {{> noSeat}}
