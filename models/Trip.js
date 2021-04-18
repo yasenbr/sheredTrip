@@ -35,10 +35,12 @@ const tripsScheme = new mongoose.Schema({
   creator: {
     type: String,
   },
-  buddies: {
-    type: mongoose.Types.ObjectId,
-    ref: "User",
-  },
+  buddies: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
-module.exports = mongoose.model("Trip", tripsScheme);
+module.exports = mongoose.model("Trips", tripsScheme);

@@ -1,5 +1,5 @@
-const Trip = require("../models/Trip");
 const Trips = require("../models/Trip");
+const User = require("../models/User");
 
 const create = (tripData, userId) => {
   let trips = new Trips({
@@ -15,25 +15,30 @@ const getAll = () =>
       return trips;
     });
 
-const getOne = (id, userName)=>
- Trips.findById(id).then((trip)=>{
-   trip.isCreator = trip.creator === userName;
-  //  console.log(trip.isCreator);
-  //  console.log("this:" ,trip);
-   return trip;
- });
+const getOne = (id, userName) =>
+  Trips.findById(id).then((trip) => {
+    trip.isCreator = trip.creator === userName;
+    return trip;
+  });
 
- const updateTrip = (id, data) =>{
-   console.log(id);
-   console.log(data);
-   return Trip.updateOne({_id: id}, data);
- };
+const updateTrip = (id, data) => {
+  console.log(data);
+  return Trips.updateOne({ _id: id }, data);
+};
+const updateBuddiesList = (id, data) => {
+  return Trips.findById(id).then((trip) => {
+    console.log(data);
+    console.log(trip);
+    trip.buddies.push(data);
 
+    return trip.save();
+  });
+};
 
 module.exports = {
   create,
   getAll,
   getOne,
   updateTrip,
-  //   deleteTrip,
+  updateBuddiesList,
 };

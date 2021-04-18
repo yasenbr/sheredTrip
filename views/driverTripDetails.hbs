@@ -1,5 +1,5 @@
 <form method="POST">
-    <section class="py-5" style="border:1px solid black;" >
+    <section class="py-5" style="border:1px solid black;">
         <div style="padding: 2%;" class="container">
             <!-- Start and End point -->
             <div style="display: flex; width: 100%;">
@@ -33,26 +33,23 @@
 
             <div style="display: flex; border-radius: 5px;">
                 <div style="display: flex;">
-                    <img style="max-width: 600px;" class="img-fluid rounded"
-                        src="{{carImg}}"
-                        alt="">
+                    <img style="max-width: 600px;" class="img-fluid rounded" src="{{carImg}}" alt="">
                 </div>
 
-                <div style="word-wrap: break-word; padding: 1%; " >
+                <div style="word-wrap: break-word; padding: 1%; ">
                     <p style="width: 50%; word-wrap: break-word;" class="lead">
                         {{description}}</p>
                     {{#if isCreator}}
                     {{> deleteBtn}}
-                    {{else}}
+                    {{/if}}
                     {{#if seat}}
                     {{> availableSeat}}
+                    {{/if}}
+                    {{#if joined}}
+                    {{> joined}}
                     {{else}}
                     {{> noSeat}}
                     {{/if}}
-                    {{/if}}
-                    {{#if joined}}
-                     {{> joined}}
-                     {{/if}}
                 </div>
             </div>
 
@@ -60,4 +57,4 @@
 
         </div>
     </section>
-    </form>
+</form>
