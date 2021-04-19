@@ -1,3 +1,4 @@
+const Trip = require("../models/Trip");
 const Trips = require("../models/Trip");
 const User = require("../models/User");
 
@@ -34,6 +35,9 @@ const updateBuddiesList = (id, data) => {
     return trip.save();
   });
 };
+const deleteOne = (id)=>{
+  return Trip.deleteOne({_id: id});
+}
 
 module.exports = {
   create,
@@ -41,4 +45,5 @@ module.exports = {
   getOne,
   updateTrip,
   updateBuddiesList,
+  deleteOne,
 };

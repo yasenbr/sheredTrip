@@ -35,31 +35,42 @@ router.get("/displayTrip/detail/:_id", (req, res) => {
       if (trip.buddies.includes(req.user._id)) {
         trip.buddies.forEach(id => {
           userServices.getOne(id).then((user)=>{
-            console.log(user);
             tripsBuddiesList.push(user.username);
           })
           
         });
+        trip.passenger = tripsBuddiesList;
         trip.joined = true;
         trip.seat = 0;
         res.render("driverTripDetails", trip);
       } else if(trip.creator === req.user.username){
+        trip.buddies.forEach(id => {
+          userServices.getOne(id).then((user)=>{
+            tripsBuddiesList.push(user.username);
+          })
+          
+        });
+        trip.passenger = tripsBuddiesList;
         trip.isCreator = true;
         // trip.noSeat = false;
         trip.seat = false;
         console.log(trip);
         res.render("driverTripDetails", trip);
       }else{
+        trip.buddies.forEach(id => {
+          userServices.getOne(id).then((user)=>{
+            tripsBuddiesList.push(user.username);
+          })
+          
+        });
+        trip.passenger = tripsBuddiesList;
         res.render("driverTripDetails", trip);
       }
-      // console.log(trip.seat);
-      // console.log(req.user.username);
     })
     .catch((err) => {
       let error = Object.keys(err?.errors).map((x) => ({
         message: err.errors[x].properties.message,
       }))[0];
-      // console.log(errors);
       res.render("/displayTrip/detail/:_id", { error });
     });
 });
@@ -71,6 +82,9 @@ router.post("/displayTrip/detail/:_id/", (req, res) => {
       let id = req.params._id;
       if (trip.creator === req.user.username) {
         //delete
+        tripServices.deleteOne(id).then(()=>{
+          res.redirect("/trips/displayTrip");
+        })
       } else if (trip.creator !== req.user.username && trip.seat > 0) {
         let seat = Number(trip.seat) - 1;
         let buddies = req.user._id;
@@ -82,7 +96,7 @@ router.post("/displayTrip/detail/:_id/", (req, res) => {
           tripServices
             .updateBuddiesList(id, buddies)
             .then((trip) => {
-              res.render("sharedTrip");
+              res.redirect("/trips/displayTrip");
             })
             .catch((err) => {
               let error = Object.keys(err?.errors).map((x) => ({
